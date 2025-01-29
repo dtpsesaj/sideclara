@@ -1,0 +1,82 @@
+{% load bootstrap4 %}
+{% load static %}
+{% block content %}
+<div class="row row-form registros font-weight-bold">
+    <div class="col-md-5">
+      <div class="card">
+        <div class="card-header">
+          <center>DECLARACION PREVIA</center> <br>
+          {{declaracion_obj.folio}}
+        </div>
+        <div class="card-body">
+          <blockquote class="blockquote mb-0">
+            <p>{{declaracion_obj.cat_tipos_declaracion.codigo}}</p>
+            <footer class="blockquote-footer"> Fecha recepción:  <cite title="Source Title">{{declaracion_obj.fecha_recepcion}}</cite></footer>
+          </blockquote>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-7">
+      <h3 class="h6 tu-informacion-previa">
+        <ul>
+          <li> 
+            <span class="text-success font-weight-semibold text-uppercase">Confirmar: </span> 
+            Al dar click en este botón, se cargarán los datos a la sección de la declaración actual y podrá modificarlos.
+          </li>
+          <li>
+            <span class="font-weight-semibold text-uppercase" style="color: #de6060;">
+              Cancelar:
+            </span> 
+            No se cargaran los datos previos a esta sección y deberá llenarlo manualmente
+          </li>
+          <li>
+            <span class="font-weight-semibold text-uppercase" style="color: #de6060;">
+              Eliminar:
+            </span> 
+            Podrá eliminar un registro que no desea cargar a la actual declaración
+          </li>
+          <li>
+            <span class="font-weight-semibold text-uppercase" style="color: #095996;" >Reload: </span> 
+            En caso de haber eliminado un registro previo podrá volverlo a cargarlos de nuevo
+          </li>
+        </ul>
+      </h3>
+    </div>
+    <div class="col-md-12" id="div_tableRegistrosPrevios" >
+      <br>
+      <table class="table" id="{{current_url_seccion}}_tableRegistrosPrevios" >
+          <thead style="display: table;width: 95%;table-layout: fixed;">
+            <tr>
+              <th style="width: 5%">#</th>
+              <th style="width: 30%" class="text-center">{{ encabezados_registros.titulo_uno }}</th>
+              <th style="width: 30%" class="text-center">{{ encabezados_registros.titulo_dos }}</th>
+              <th style="width: 30%" class="text-center">{{ encabezados_registros.titulo_tres }}</th>
+              <th class="text-center">Eliminar</th>
+            </tr>
+          </thead>
+          <tbody style="display: block;max-height: 200px;height: auto;overflow: auto;width: 100%;table-layout: fixed;">
+
+            {% if informacion_registrada_previa %}
+              {% for data in informacion_registrada_previa %}
+                <tr id="borrar-registro-previo-{{data.pk}}" class="registroPrevio" style="font-weight: normal;display: table;width: 100%;table-layout: fixed;">
+                  <td style="width: 5%;" scope="row">{{ forloop.counter }}</th>
+                  <td style="width: 25%;" class="text-center">{{ data.columna_uno }}</td>
+                  <td style="width: 30%;" class="text-center">{{ data.columna_dos }}</td>
+                  <td style="width: 30%;" class="text-center">{{ data.columna_tres }}</td>
+                  <td class="text-center">
+                    <button class="btn btn-link btn-link-plus btnEliminarRegistroPrevio" type="button" name="button">
+                      <img src="{% static 'src/img/eliminar.svg'%}" class="svg">
+                    </button>
+                  </td>
+                </tr>
+              {% endfor %}
+            {% else %}
+              <tr class="registroPrevio" style="font-weight: normal;display: table;width: 100%;table-layout: fixed;">
+                <td style="width: 100%;background: #f5fafd;" colspan="5"><center> Sin datos que mostrar </center></td>
+              </tr>
+            {% endif %}
+          </tbody>
+      </table>
+    </div>
+</div>
+{% endblock %}
