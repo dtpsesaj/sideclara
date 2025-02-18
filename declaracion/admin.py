@@ -7,11 +7,16 @@ from import_export import resources, widgets, fields
 from import_export.widgets import ManyToManyWidget, ForeignKeyWidget
 from import_export.admin import ImportExportModelAdmin,ExportMixin
 from import_export.formats import base_formats
+from import_export.formats.base_formats import CSV
 
+class UTF8CSV(CSV):
+    def get_title(self):
+        return "csv (UTF-8)"
 
 class UserResource(resources.ModelResource):
     class Meta:
         model = User
+        import_id_fields = ['username']
         fields = ('username','first_name', 'last_name', 'email','is_active','is_staff')
 
 class UserAdmin(ImportExportModelAdmin, UserAdmin):
